@@ -13,10 +13,10 @@ class SearchBar extends Component {
   handleInputChange (query) {
     this.setState({ query })
 
-    const validatedQuery = validate(query)
+    const validQueries = validate(query)
 
-    if (validatedQuery) {
-      this.props.onQueryChange(validatedQuery)
+    if (validQueries.length) {
+      this.props.onQueryChange(validQueries)
     } else {
       this.props.onValidationError(1)
     }
@@ -37,12 +37,17 @@ class SearchBar extends Component {
 
 function validate (query) {
   const formattedQuery = query.toLowerCase()
+  const formattedQueryParts = formattedQuery.split(' ')
   const characters = getCharacters()
-  const match = characters.filter(({ name, alts }) => {
-    return name === formattedQuery || alts.includes(formattedQuery)
-  })
 
-  return match.length ? match[0].name : ''
+  return characters
+    .filter(({ name, alts }) => {
+      const formattedName = name.toLowerCase()
+      return formattedName === formattedQuery ||
+        formattedQueryParts.every(part => formattedName.includes(part)) ||
+        alts.includes(formattedQuery)
+    })
+    .map(match => match.name)
 }
 
 export default SearchBar

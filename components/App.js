@@ -8,7 +8,7 @@ class App extends Component {
     super()
 
     this.state = {
-      carbantisMap: null,
+      carabantisData: null,
       error: 0
     }
 
@@ -16,30 +16,39 @@ class App extends Component {
     this.setError = _.debounce(this.setError.bind(this), 500)
   }
 
-  runSearch (query) {
-    const formattedQuery = query.replace(/\s/g, '-')
-    const json = { [formattedQuery]: 1 }
+  runSearch (queries) {
+    const json = queries.reduce((obj, key) => ({...obj, [key]: 1}), {})
 
     axios.post('https://carbanti-hunter.herokuapp.com/api', json, {
       'Content-Type': 'application/json'
     }).then(resp => this.setState({
-      carbantisMap: resp.data[formattedQuery],
+      carabantisData: resp.data,
       error: 0
     }))
   }
 
   setError (error) {
-    this.setState(({ carbantisMap }) => {
+    this.setState(({ carabantisData }) => {
       return {
-        carbantisMap,
+        carabantisData,
         error
       }
     })
   }
 
   getCarbantisTotal () {
-    return Object.values(this.state.carbantisMap)
-      .reduce((total, current) => total + current)
+    return Object.entries(this.state.carabantisData)
+      .map(([name, map]) => {
+        return (
+          <div>
+            <div>{name}</div>
+            <div>
+              Total salvage needed:
+              {Object.values(map).reduce((total, current) => total + current)}
+            </div>
+          </div>
+        )
+      })
   }
 
   render () {
@@ -50,7 +59,7 @@ class App extends Component {
           onValidationError={error => this.setError(error)}
         />
         {this.state.error ? 'This isn\'t the character you\'re looking for...' : ''}
-        {this.state.carbantisMap ? this.getCarbantisTotal() : ''}
+        {this.state.carabantisData ? this.getCarbantisTotal() : ''}
       </div>
     )
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getCharacters } from '../lib/utils'
+import { validateQuery } from '../lib/utils'
 
 class SearchBar extends Component {
   constructor (props) {
@@ -15,7 +15,7 @@ class SearchBar extends Component {
 
     if (query.length < 2) return
 
-    const validQueries = validate(query)
+    const validQueries = validateQuery(query)
 
     if (validQueries.length) {
       this.props.onQueryChange(validQueries)
@@ -35,21 +35,6 @@ class SearchBar extends Component {
       </div>
     )
   }
-}
-
-function validate (query) {
-  const formattedQuery = query.toLowerCase()
-  const formattedQueryParts = formattedQuery.split(' ')
-  const characters = getCharacters()
-
-  return characters
-    .filter(({ name, alts }) => {
-      const formattedName = name.toLowerCase()
-      return formattedName === formattedQuery ||
-        formattedQueryParts.every(part => formattedName.includes(part)) ||
-        alts.includes(formattedQuery)
-    })
-    .map(match => match.name)
 }
 
 export default SearchBar

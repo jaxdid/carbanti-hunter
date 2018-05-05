@@ -13,6 +13,8 @@ class SearchBar extends Component {
   handleInputChange (query) {
     this.setState({ query })
 
+    if (query.length < 2) return
+
     const validQueries = validate(query)
 
     if (validQueries.length) {

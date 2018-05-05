@@ -2,6 +2,7 @@ import _ from 'lodash'
 import axios from 'axios'
 import React, { Component } from 'react'
 import SearchBar from './SearchBar'
+import CharacterCard from './CharacterCard'
 
 class App extends Component {
   constructor () {
@@ -38,17 +39,7 @@ class App extends Component {
 
   getCarbantisTotal () {
     return Object.entries(this.state.carabantisData)
-      .map(([name, map]) => {
-        return (
-          <div>
-            <div>{name}</div>
-            <div>
-              Total salvage needed:
-              {Object.values(map).reduce((total, current) => total + current)}
-            </div>
-          </div>
-        )
-      })
+      .map(([name, map]) => <CharacterCard name={name} map={map} />)
   }
 
   render () {

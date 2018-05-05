@@ -11,7 +11,7 @@ class App extends Component {
       carbantisMap: null
     }
 
-    this.runSearch = this.runSearch.bind(this)
+    this.runSearch = _.debounce(this.runSearch.bind(this), 500)
   }
 
   runSearch (query) {
@@ -31,11 +31,9 @@ class App extends Component {
   }
 
   render () {
-    const runThrottledSearch = _.debounce(query => this.runSearch(query), 1000)
-
     return (
       <div>
-        <SearchBar onQueryChange={query => runThrottledSearch(query)} />
+        <SearchBar onQueryChange={query => this.runSearch(query)} />
         {this.state.carbantisMap ? this.getCarbantisTotal() : ''}
       </div>
     )

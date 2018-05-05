@@ -8,10 +8,12 @@ class App extends Component {
     super()
 
     this.state = {
-      carbantisMap: null
+      carbantisMap: null,
+      error: 0
     }
 
     this.runSearch = _.debounce(this.runSearch.bind(this), 500)
+    this.setError = _.debounce(this.setError.bind(this), 500)
   }
 
   runSearch (query) {
@@ -21,8 +23,18 @@ class App extends Component {
     axios.post('https://carbanti-hunter.herokuapp.com/api', json, {
       'Content-Type': 'application/json'
     }).then(resp => this.setState({
-      carbantisMap: resp.data[formattedQuery]
+      carbantisMap: resp.data[formattedQuery],
+      error: 0
     }))
+  }
+
+  setError (error) {
+    this.setState(({ carbantisMap }) => {
+      return {
+        carbantisMap,
+        error
+      }
+    })
   }
 
   getCarbantisTotal () {
@@ -33,7 +45,11 @@ class App extends Component {
   render () {
     return (
       <div>
-        <SearchBar onQueryChange={query => this.runSearch(query)} />
+        <SearchBar
+          onQueryChange={query => this.runSearch(query)}
+          onValidationError={error => this.setError(error)}
+        />
+        {this.state.error ? 'This isn\'t the character you\'re looking for...' : ''}
         {this.state.carbantisMap ? this.getCarbantisTotal() : ''}
       </div>
     )

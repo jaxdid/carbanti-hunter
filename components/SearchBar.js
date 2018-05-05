@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { getCharacters } from '../lib/utils'
 
 class SearchBar extends Component {
   constructor (props) {
@@ -11,7 +12,14 @@ class SearchBar extends Component {
 
   handleInputChange (query) {
     this.setState({ query })
-    this.props.onQueryChange(query)
+
+    const validatedQuery = validate(query)
+
+    if (validatedQuery) {
+      this.props.onQueryChange(validatedQuery)
+    } else {
+      this.props.onValidationError(1)
+    }
   }
 
   render () {
@@ -25,6 +33,16 @@ class SearchBar extends Component {
       </div>
     )
   }
+}
+
+function validate (query) {
+  const formattedQuery = query.toLowerCase()
+  const characters = getCharacters()
+  const match = characters.filter(({ name, alts }) => {
+    return name === formattedQuery || alts.includes(formattedQuery)
+  })
+
+  return match.length ? match[0].name : ''
 }
 
 export default SearchBar

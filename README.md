@@ -9,19 +9,20 @@ Find out exactly how much Mk 3 Carbanti Sensor Array Salvage you don't have to u
 ### Usage
 Search for Carbanti requirements using complete and partial character names, abbreviations/aliases and current gear levels.
 
-##### Examples
-Search: `Boba Fett`
-Response: `Boba Fett` – Gear Levels 7-11
+#### Examples
+```
+"Boba Fett"
+=> Boba Fett – Gear Levels 7-11
 
-Search: `palp@3`
-Response: `Emperor Palpatine` – Gear Levels 7-11
+"palp@3"
+=> Emperor Palpatine – Gear Levels 7-11
 
-Search: `cls@10`
-Response: `Commander Luke Skywalker` – Gear Levels 10-11
+"cls@10"
+=> Commander Luke Skywalker – Gear Levels 10-11
 
-Search: `han solo@11`
-Response: `Han Solo`, `Captain Han Solo`, `Stormtrooper Han` and `Veteran Smuggler Han Solo` – Gear Level 11
-
+"han solo@11"
+=> Han Solo, Captain Han Solo, Stormtrooper Han and Veteran Smuggler Han Solo – Gear Level 11
+```
 
 ### Tech
 - React

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import { validateQuery } from '../lib/utils'
 
 class SearchBar extends Component {
@@ -28,15 +29,19 @@ class SearchBar extends Component {
 
   render () {
     return (
-      <div className="search-bar">
-        <input
-          value={this.state.query}
-          placeholder={'Search your feelings...'}
-          onChange={event => this.handleInputChange(event.target.value)}
-        />
-      </div>
+      <Field
+        value={this.state.query}
+        placeholder={'Search your feelings...'}
+        onChange={event => this.handleInputChange(event.target.value)}
+      />
     )
   }
 }
+
+const Field = styled.input`
+  width: 80%;
+  text-align: center;
+  font-size: 24px;
+`
 
 export default SearchBar

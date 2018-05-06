@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import axios from 'axios'
+import styled from 'styled-components'
 import React, { Component } from 'react'
 import SearchBar from './SearchBar'
 import CharacterCard from './CharacterCard'
@@ -43,7 +44,7 @@ class App extends Component {
 
   render () {
     return (
-      <div>
+      <Container>
         <SearchBar
           onQueryChange={query => this.runSearch(query)}
           clearRequestQueue={this.runSearch.cancel}
@@ -51,9 +52,16 @@ class App extends Component {
         />
         {this.state.error ? 'This isn\'t the character you\'re looking for...' : ''}
         {this.state.carabantisData ? this.getCarbantisTotal() : ''}
-      </div>
+      </Container>
     )
   }
 }
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`
 
 export default App

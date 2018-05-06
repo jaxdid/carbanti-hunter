@@ -18,8 +18,7 @@ class App extends Component {
   }
 
   runSearch (queries) {
-    const json = queries.reduce((obj, key) => ({...obj, [key]: 1}), {})
-
+    const json = queries.reduce((obj, { name, level }) => ({...obj, [name]: level}), {})
     axios.post('https://carbanti-hunter.herokuapp.com/api', json, {
       'Content-Type': 'application/json'
     }).then(resp => this.setState({

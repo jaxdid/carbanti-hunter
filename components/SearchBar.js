@@ -12,6 +12,8 @@ class SearchBar extends Component {
 
   handleInputChange (query) {
     this.setState({ query })
+    this.props.clearRequestQueue()
+    this.props.onValidationError(0)
 
     if (query.length < 2) return
 

@@ -28,12 +28,12 @@ class App extends Component {
   }
 
   setError (error) {
-    this.setState(({ carabantisData }) => {
-      return {
-        carabantisData,
+    window.setTimeout(() => {
+      this.setState({
+        carabantisData: null,
         error
-      }
-    })
+      })
+    }, error === 1 ? 1000 : 0)
   }
 
   getCarbantisTotal () {
@@ -46,6 +46,7 @@ class App extends Component {
       <div>
         <SearchBar
           onQueryChange={query => this.runSearch(query)}
+          clearRequestQueue={this.runSearch.cancel}
           onValidationError={error => this.setError(error)}
         />
         {this.state.error ? 'This isn\'t the character you\'re looking for...' : ''}

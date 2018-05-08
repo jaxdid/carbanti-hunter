@@ -3,7 +3,7 @@ import axios from 'axios'
 import styled from 'styled-components'
 import React, { Component } from 'react'
 import SearchBar from './SearchBar'
-import CharacterCard from './CharacterCard'
+import Results from './Results'
 
 class App extends Component {
   constructor () {
@@ -37,21 +37,18 @@ class App extends Component {
     }, error === 1 ? 1000 : 0)
   }
 
-  getCarbantisTotal () {
-    return Object.entries(this.state.carabantisData)
-      .map(([name, map]) => <CharacterCard name={name} map={map} />)
-  }
-
   render () {
     return (
       <Container>
+        <Title>
+          Carbanti Hunter
+        </Title>
         <SearchBar
           onQueryChange={query => this.runSearch(query)}
           clearRequestQueue={this.runSearch.cancel}
           onValidationError={error => this.setError(error)}
         />
-        {this.state.error ? 'This isn\'t the character you\'re looking for...' : ''}
-        {this.state.carabantisData ? this.getCarbantisTotal() : ''}
+        <Results data={this.state.carabantisData} error={this.state.error} />
       </Container>
     )
   }
@@ -59,9 +56,24 @@ class App extends Component {
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+`
+
+const Title = styled.div`
+  flex: 2 0 0;  
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  color: #150701;
+  font-size: 56px;
+  font-family: 'Bungee', sans-serif;
+  background-image: url(//cdn.dribbble.com/users/1055192/screenshots/3370688/greedo_run_01.gif);
+  background-size: 25%;
+  background-position: calc(50% + 10px) calc(100% - 88px);
+  background-repeat: no-repeat;
 `
 
 export default App
